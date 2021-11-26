@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
 import UserPool from "../UserPool";
+import UserContext from "../store/user-context";
 
 const Login = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const userCtx = useContext(UserContext);
 
   const onSubmit = (event) => {
     event.preventDefault();
@@ -18,10 +20,23 @@ const Login = (props) => {
     });
 
     user.authenticateUser(authDetails, {
-      onSuccess: (data) => {
+      onSuccess: async (data) => {
         console.log("onSuccess : ", data);
-        props.login();
-        // redirect to Dashboard
+        // fetch user object from dynamo
+        try {
+          const response = await fetch(
+            "http://localhost:3001/friends/userDetails"
+          );
+          if (!response.ok) {
+            throw new Error("Something went wrong");
+          }
+          const data = await response.json();
+          console.log("user details message received - ", data);
+        } catch (error) {
+          console.log("User fetch error ", error);
+        }
+
+        props.login(); // redirect to Dashboard
       },
       onFailure: (err) => {
         console.error("onFailure : ", err);

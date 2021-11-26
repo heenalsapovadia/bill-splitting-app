@@ -1,5 +1,6 @@
 import logo from "./logo.svg";
 import "./App.css";
+import UserProvider from "./store/UserProvider";
 import SignUp from "./components/SignUp";
 import Login from "./components/Login";
 import Main from "./Main";
@@ -14,7 +15,7 @@ function App() {
     setIsLoggedIn(false);
   };
   return (
-    <div>
+    <UserProvider>
       {!isLoggedIn && (
         <div>
           <h1>SignUp</h1>
@@ -24,7 +25,7 @@ function App() {
         </div>
       )}
       {isLoggedIn && <Main />}
-    </div>
+    </UserProvider>
   );
 }
 
