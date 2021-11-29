@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
+import UserContext from "../store/user-context";
 
 import Expense from "./Expense";
 
 const Expenses = () => {
+  const userCtx = useContext(UserContext);
+  console.log("printing from expenses : " + userCtx.allTransactions);
+  let userTxn = userCtx.allTransactions;
   const DUMMY_txn = [
     {
       id: "f1",
@@ -23,12 +27,13 @@ const Expenses = () => {
       currency: "CAD",
     },
   ];
-  const expenseList = DUMMY_txn.map((expense) => (
+  const expenseList = userTxn.map((expense) => (
     <Expense
-      id={expense.id}
-      name={expense.name}
+      id={expense.txnId}
+      name={expense.splitUserId}
       amount={expense.amount}
-      currency={expense.currency}
+      description={expense.description}
+      date={expense.txnDateTime}
     />
   ));
   return (

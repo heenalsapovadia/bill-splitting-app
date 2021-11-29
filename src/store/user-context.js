@@ -1,12 +1,11 @@
 import React from "react";
 
 const UserContext = React.createContext({
-  //   lendAmount: 0,
-  //   borrowAmount: 0,
+  userProfile: {},
   totalSum: 0,
-  friendsList: [],
+  allTransactions: [],
   setUser: (user) => {},
-  addFriend: (friend) => {},
+  setTransactions: (transactions) => {},
 });
 
 export default UserContext;

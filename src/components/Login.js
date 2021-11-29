@@ -24,19 +24,29 @@ const Login = (props) => {
         console.log("onSuccess : ", data);
         // fetch user object from dynamo
         try {
-          const response = await fetch(
+          console.log("calling fetch");
+          let response = await fetch(
             "http://localhost:3001/friends/userDetails"
           );
           if (!response.ok) {
-            throw new Error("Something went wrong");
+            throw new Error("Could not load the user!");
           }
           const data = await response.json();
           console.log("user details message received - ", data);
+          userCtx.setUser(data);
+
+          // fetch all transactions
+          let res = await fetch("http://localhost:3001/friends/transactions");
+          if (!res.ok) {
+            throw new Error("Could not fetch transactions!");
+          }
+          const txnData = await res.json();
+          console.log("user transactions received - ", txnData);
+          userCtx.setTransactions(txnData);
+          props.login(); // redirect to Dashboard
         } catch (error) {
           console.log("User fetch error ", error);
         }
-
-        props.login(); // redirect to Dashboard
       },
       onFailure: (err) => {
         console.error("onFailure : ", err);

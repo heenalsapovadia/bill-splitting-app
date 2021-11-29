@@ -21,7 +21,7 @@ const DashboardPage = () => {
         throw new Error("SOmething went wrong");
       }
       const data = await response.json();
-      console.log("message received - ", data.message);
+      console.log("total Sum message received - ", data.message);
       setTotalBalance(data.message);
     } catch (error) {
       console.log("Error : ", error.message);

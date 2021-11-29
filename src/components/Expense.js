@@ -11,6 +11,10 @@ const Expense = (props) => {
       <div>
         <h3>{props.name}</h3>
         <div className={classes.amount}>{amount}</div>
+        <div>{props.description}</div>
+      </div>
+      <div>
+        <p>{props.date}</p>
       </div>
     </li>
   );
