@@ -1,16 +1,52 @@
 import Modal from "./UI/Modal";
 
 const AddExpense = (props) => {
+  const addExpenseHandler = (event) => {
+    event.preventDefault();
+    // console.log("printing the event : ", event.target.paidBy.value);
+    let splitUserId = event.target.splitUserId.value;
+    let description = event.target.description.value;
+    let amount = parseInt(event.target.amount.value);
+    let paidBy = event.target.paidBy.value;
+    if (paidBy === "them") amount = -1 * amount;
+
+    try {
+      console.log("inside try catch");
+      fetch("http://localhost:3001/friends/transactions", {
+        method: "POST",
+        body: JSON.stringify({
+          splitUserId: splitUserId,
+          amount: amount,
+          description: description,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log("sent txn");
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
   return (
     <Modal onClose={props.onClose}>
       <h2>Add Expenses here...</h2>
-      <form>
-        <input type="text" placeholder="Enter name or email address" />
+      <form onSubmit={addExpenseHandler}>
+        <input
+          type="text"
+          id="splitUserId"
+          name="splitUserId"
+          placeholder="Enter name or email address"
+        />
         <br />
         {/* dynamic dropdown for friends list */}
-        <input type="text" placeholder="Enter a Description" />
+        <input
+          type="text"
+          name="description"
+          placeholder="Enter a Description"
+        />
         <br />
-        <input type="number" placeholder="0.0" />
+        <input type="number" name="amount" placeholder="0.0" />
         <br />
         <input type="radio" id="you" name="paidBy" value="you" />
         <label for="you">Paid by YOU</label>
@@ -22,7 +58,7 @@ const AddExpense = (props) => {
         {/* dynamic paid by dropdown */}
         {/* fields for splitting proportion */}
         {/* date field */}
-        <button>Add</button>
+        <button type="submit">Add</button>
       </form>
       <button onClick={props.onClose}>Close</button>
     </Modal>
