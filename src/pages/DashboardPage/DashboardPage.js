@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
 import AddExpense from "../../components/AddExpense";
-
+import { Link } from "react-router-dom";
 import DashboardTop from "../../components/Dashboard/DashboardTop";
 import Expenses from "../../components/Expenses";
+import Navbar from "../../components/Navbar/Navbar";
 import classes from "./DashboardPage.module.css";
 const DashboardPage = () => {
   //   console.log("inside dashboard");
@@ -40,15 +41,26 @@ const DashboardPage = () => {
   return (
     <>
       <div className={classes.container}>
-        <DashboardTop
-          totalBalance={totalBalance}
-          youOwe={youOwe}
-          youAreOwed={youAreOwed}
-          // showAddExpense={}
-        />
-        <Expenses />
-        {/* {showExpenses && <Expenses />}
+        <div className={classes.leftnav}>
+          <Link className={classes.link} to="/dashboard">
+            <h2>Dashboard</h2>
+          </Link>
+          <Link className={classes.link} to="">
+            <h2>Friends</h2>
+          </Link>
+        </div>
+        <div className={classes.main}>
+          <DashboardTop
+            totalBalance={totalBalance}
+            youOwe={youOwe}
+            youAreOwed={youAreOwed}
+            // showAddExpense={}
+          />
+          <Expenses />
+          {/* {showExpenses && <Expenses />}
       {showAddExpense && <AddExpense />} */}
+        </div>
+        <div className={classes.rightnav}></div>
       </div>
     </>
   );

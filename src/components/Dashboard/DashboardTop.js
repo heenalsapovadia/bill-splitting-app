@@ -12,7 +12,7 @@ const DashboardTop = (props) => {
   };
 
   return (
-    <div>
+    <div className={classes.container}>
       <div className={classes.top}>
         <h1>Dashboard</h1>
         <button onClick={showAddHandler} className={classes.orange}>

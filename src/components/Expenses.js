@@ -1,32 +1,12 @@
 import React, { useContext } from "react";
 import UserContext from "../store/user-context";
-
+import classes from "./Expense.module.css";
 import Expense from "./Expense";
 
 const Expenses = () => {
   const userCtx = useContext(UserContext);
   console.log("printing from expenses : " + userCtx.allTransactions);
   let userTxn = userCtx.allTransactions;
-  const DUMMY_txn = [
-    {
-      id: "f1",
-      name: "monisha",
-      amount: -100,
-      currency: "CAD",
-    },
-    {
-      id: "f2",
-      name: "psp",
-      amount: 200,
-      currency: "CAD",
-    },
-    {
-      id: "f1",
-      name: "anjali",
-      amount: -100.25,
-      currency: "CAD",
-    },
-  ];
   const expenseList = userTxn.map((expense) => (
     <Expense
       id={expense.txnId}
@@ -36,9 +16,43 @@ const Expenses = () => {
       date={expense.txnDateTime}
     />
   ));
+
+  let youOwe = userTxn.map((expense) => {
+    if (expense.amount < 0) {
+      return (
+        <Expense
+          id={expense.txnId}
+          name={expense.splitUserId}
+          amount={expense.amount}
+          description={expense.description}
+          date={expense.txnDateTime}
+        />
+      );
+    }
+  });
+  let owesYou = userTxn.map((expense) => {
+    if (expense.amount > 0) {
+      return (
+        <Expense
+          id={expense.txnId}
+          name={expense.splitUserId}
+          amount={expense.amount}
+          description={expense.description}
+          date={expense.txnDateTime}
+        />
+      );
+    }
+  });
+
   return (
-    <section>
-      <ul>{expenseList}</ul>
+    <section className={classes.container}>
+      <div className={classes.youowe}>
+        <ul>{youOwe}</ul>
+      </div>
+      <div className={classes.owesyou}>
+        <ul>{owesYou}</ul>
+      </div>
+      {/* <ul>{expenseList}</ul> */}
     </section>
   );
 };

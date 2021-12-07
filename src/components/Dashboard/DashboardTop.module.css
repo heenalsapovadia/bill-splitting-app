@@ -1,3 +1,7 @@
+.container {
+  margin-top: 40px;
+}
+
 .top {
   display: flex;
   justify-content: space-between;

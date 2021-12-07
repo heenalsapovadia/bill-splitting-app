@@ -36,7 +36,7 @@ exports.handler = async (event) => {
         "#userId": "userID",
       },
       ExpressionAttributeValues: {
-        ":userIdValue": "hs@gm.com",
+        ":userIdValue": userId,
       },
     };
 
@@ -146,6 +146,54 @@ exports.handler = async (event) => {
     console.log("scnaRes, ", scanRes);
     console.log("after scan ....");
 
+    return scanRes;
+  }
+
+  if (eventObj.method === "GET" && eventObj.path === "/user") {
+    let userId = requestParams.userId;
+    console.log("inside GET : its for user : ", userId);
+    console.log("request from /user GET : ", eventObj.method); //event.queryStringParameters.userId);
+
+    var params = {
+      TableName: "user",
+      Key: {
+        userId: { S: userId },
+      },
+    };
+
+    async function logSingleItem(params) {
+      try {
+        var result = await dynamo.getItem(params).promise();
+        console.log(JSON.stringify(result));
+        let userObj = result.Item;
+
+        return {
+          statusCode: 200,
+          body: JSON.stringify({
+            user: {
+              userId: userObj.userId.S,
+              userName: userObj.userName.S,
+              mobileNumber: userObj.mobileNumber.N,
+            },
+          }),
+          headers: { "Content-Type": "application/json" },
+        };
+      } catch (error) {
+        console.error(error);
+        return {
+          statusCode: 500,
+          body: JSON.stringify({
+            msg: "fetch Failed",
+          }),
+          headers: { "Content-Type": "application/json" },
+        };
+      }
+    }
+
+    console.log("before scan ....");
+    let scanRes = await logSingleItem(params);
+    console.log("scnaRes, ", scanRes);
+    console.log("after scan ....");
     return scanRes;
   }
 

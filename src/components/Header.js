@@ -1,17 +1,22 @@
+import { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-
+import classes from "./Header.module.css";
 const Header = () => {
   const history = useNavigate();
 
+  useEffect(() => {
+    goToDashboardHandler();
+  }, []);
   const goToDashboardHandler = () => {
     history("/dashboard");
   };
   return (
     <>
-      <h1>Header Comp</h1>
-      <Link to="/dashboard">
-        <h2>Dashboard</h2>
-      </Link>
+      <div className={classes.container}>
+        <h1>Split up</h1>
+        <h1 className={classes.logout}>Logout</h1>
+        <h1 className={classes.username}>Username</h1>
+      </div>
     </>
   );
 };
