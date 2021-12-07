@@ -12,17 +12,22 @@ const AddExpense = (props) => {
 
     try {
       console.log("inside try catch");
-      fetch("http://localhost:3001/friends/transactions", {
-        method: "POST",
-        body: JSON.stringify({
-          splitUserId: splitUserId,
-          amount: amount,
-          description: description,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      let userId = "hs@gm.com";
+      fetch(
+        "https://80rc5nsfue.execute-api.us-east-2.amazonaws.com/transactions?userId=" +
+          userId,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            splitUserId: splitUserId,
+            amount: amount,
+            description: description,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       console.log("sent txn");
     } catch (error) {
       console.log("error", error);

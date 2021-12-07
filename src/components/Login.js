@@ -36,7 +36,11 @@ const Login = (props) => {
           userCtx.setUser(data);
 
           // fetch all transactions
-          let res = await fetch("http://localhost:3001/friends/transactions");
+          let userId = "hs@gm.com";
+          let res = await fetch(
+            "https://80rc5nsfue.execute-api.us-east-2.amazonaws.com/transactions?userId=" +
+              userId
+          );
           if (!res.ok) {
             throw new Error("Could not fetch transactions!");
           }
