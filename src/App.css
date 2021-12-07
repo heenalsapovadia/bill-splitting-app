@@ -23,9 +23,17 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
-
+h1,
+ul {
+  margin: 0;
+  padding: 0;
+}
 .App-link {
   color: #61dafb;
+}
+
+.title {
+  text-align: center;
 }
 
 @keyframes App-logo-spin {

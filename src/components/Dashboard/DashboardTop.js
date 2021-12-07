@@ -1,5 +1,5 @@
 import { useState } from "react";
-import AddExpense from "./AddExpense";
+import AddExpense from "../AddExpense";
 import classes from "./DashboardTop.module.css";
 
 const DashboardTop = (props) => {
@@ -15,8 +15,10 @@ const DashboardTop = (props) => {
     <div>
       <div className={classes.top}>
         <h1>Dashboard</h1>
-        <button onClick={showAddHandler}>Add an expense</button>
-        <button>Settle Up</button>
+        <button onClick={showAddHandler} className={classes.orange}>
+          Add an expense
+        </button>
+        <button className={classes.mint}>Settle Up</button>
       </div>
       <div className={classes.summary}>
         <div className={classes.summary_item}>

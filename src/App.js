@@ -1,7 +1,7 @@
 import logo from "./logo.svg";
 import "./App.css";
 import UserProvider from "./store/UserProvider";
-import SignUp from "./components/SignUp";
+import SignUp from "./components/SignUp/SignUp";
 import Login from "./components/Login";
 import Main from "./Main";
 import { useState } from "react";
@@ -18,9 +18,9 @@ function App() {
     <UserProvider>
       {!isLoggedIn && (
         <div>
-          <h1>SignUp</h1>
+          <h1 className="title">SignUp</h1>
           <SignUp />
-          <h1>Login</h1>
+          <h1 className="title">Login</h1>
           <Login login={loginHandler} />
         </div>
       )}

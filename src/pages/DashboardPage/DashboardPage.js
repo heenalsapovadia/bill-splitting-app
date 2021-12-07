@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
-import AddExpense from "../components/AddExpense";
+import AddExpense from "../../components/AddExpense";
 
-import DashboardTop from "../components/DashboardTop";
-import Expenses from "../components/Expenses";
-
+import DashboardTop from "../../components/Dashboard/DashboardTop";
+import Expenses from "../../components/Expenses";
+import classes from "./DashboardPage.module.css";
 const DashboardPage = () => {
   //   console.log("inside dashboard");
   const [showExpenses, setShowExpenses] = useState(true);
@@ -39,15 +39,17 @@ const DashboardPage = () => {
 
   return (
     <>
-      <DashboardTop
-        totalBalance={totalBalance}
-        youOwe={youOwe}
-        youAreOwed={youAreOwed}
-        // showAddExpense={}
-      />
-      <Expenses />
-      {/* {showExpenses && <Expenses />}
+      <div className={classes.container}>
+        <DashboardTop
+          totalBalance={totalBalance}
+          youOwe={youOwe}
+          youAreOwed={youAreOwed}
+          // showAddExpense={}
+        />
+        <Expenses />
+        {/* {showExpenses && <Expenses />}
       {showAddExpense && <AddExpense />} */}
+      </div>
     </>
   );
 };

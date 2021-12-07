@@ -2,10 +2,11 @@ import React, { useContext, useState } from "react";
 import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
 import UserPool from "../UserPool";
 import UserContext from "../store/user-context";
+import classes from "./SignUp/SignUp.module.css";
 
 const Login = (props) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("hs@gm.com");
+  const [password, setPassword] = useState("Heenal@123");
   const userCtx = useContext(UserContext);
 
   const onSubmit = (event) => {
@@ -24,16 +25,16 @@ const Login = (props) => {
         console.log("onSuccess : ", data);
         // fetch user object from dynamo
         try {
-          console.log("calling fetch");
-          let response = await fetch(
-            "http://localhost:3001/friends/userDetails"
-          );
-          if (!response.ok) {
-            throw new Error("Could not load the user!");
-          }
-          const data = await response.json();
-          console.log("user details message received - ", data);
-          userCtx.setUser(data);
+          // console.log("calling fetch");
+          // let response = await fetch(
+          //   "http://localhost:3001/friends/userDetails"
+          // );
+          // if (!response.ok) {
+          //   throw new Error("Could not load the user!");
+          // }
+          // const data = await response.json();
+          // console.log("user details message received - ", data);
+          // userCtx.setUser(data);
 
           // fetch all transactions
           let userId = "hs@gm.com";
@@ -65,19 +66,27 @@ const Login = (props) => {
     });
   };
   return (
-    <div>
-      <form onSubmit={onSubmit}>
-        <label htmlFor="email">Email</label>
+    <div className={classes.container}>
+      <form className={classes["login-form"]} onSubmit={onSubmit}>
+        <label className={classes["login-label"]} htmlFor="email">
+          Email
+        </label>
         <input
+          className={classes["login-input"]}
           value={email}
           onChange={(event) => setEmail(event.target.value)}
         ></input>
-        <label htmlFor="password">Password</label>
+        <label className={classes["login-label"]} htmlFor="password">
+          Password
+        </label>
         <input
+          className={classes["login-input"]}
           value={password}
           onChange={(event) => setPassword(event.target.value)}
         ></input>
-        <button type="submit">Login</button>
+        <button className={classes["login-submit"]} type="submit">
+          Login
+        </button>
       </form>
     </div>
   );

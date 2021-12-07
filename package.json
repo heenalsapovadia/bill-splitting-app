@@ -36,5 +36,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "https://80rc5nsfue.execute-api.us-east-2.amazonaws.com"
 }
