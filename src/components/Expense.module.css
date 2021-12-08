@@ -2,6 +2,12 @@
   display: flex;
   flex-direction: row;
 }
+
+.name {
+  font-weight: normal;
+  font-size: 18px;
+}
+
 .youowe {
   width: 50%;
 }
@@ -19,13 +25,34 @@
 .expense {
   display: flex;
   justify-content: space-between;
-  margin: 1rem;
-  padding-bottom: 1rem;
+  /* margin: 1rem; */
+  padding: 1rem;
   border-bottom: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.expense:hover {
+  background-color: rgba(238, 229, 229, 0.801);
 }
 
 .expense h3 {
   margin: 0 0 0.25rem 0;
+}
+
+.img {
+  width: 20%;
+  padding: 2%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+.img > img {
+  border-radius: 90px;
+  width: 45px;
+}
+
+.info {
+  width: 80%;
 }
 
 /* .amount {

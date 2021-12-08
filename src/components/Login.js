@@ -5,8 +5,8 @@ import UserContext from "../store/user-context";
 import classes from "./SignUp/SignUp.module.css";
 
 const Login = (props) => {
-  const [email, setEmail] = useState("hs@gm.com");
-  const [password, setPassword] = useState("Heenal@123");
+  const [email, setEmail] = useState("test_user@gm.com");
+  const [password, setPassword] = useState("Testuser@123");
   const userCtx = useContext(UserContext);
 
   const onSubmit = (event) => {
@@ -38,7 +38,6 @@ const Login = (props) => {
           userCtx.setUser(data);
 
           // fetch all transactions
-          // let userId = "hs@gm.com";
           let res = await fetch(
             "https://80rc5nsfue.execute-api.us-east-2.amazonaws.com/transactions?userId=" +
               email
@@ -65,6 +64,13 @@ const Login = (props) => {
         console.log("newPasswordRequried : ", data);
       },
     });
+  };
+
+  const logout = () => {
+    const user = UserPool.getCurrentUser();
+    if (user) {
+      user.signOut();
+    }
   };
   return (
     <div className={classes.container}>

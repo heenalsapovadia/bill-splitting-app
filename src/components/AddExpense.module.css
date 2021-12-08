@@ -1,0 +1,107 @@
+/* .content {
+  width: 60%;
+} */
+
+.title {
+  margin: 0;
+}
+
+.header {
+  background: #5cc5a7;
+  display: flex;
+  flex-direction: row;
+  color: #fff;
+  width: calc(100% - 20px);
+  border-radius: 14px 14px 0px 0px;
+  padding: 10px;
+  border-bottom: 1px solid #36977b;
+  text-shadow: 0 -1px 0 #318a71;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 25px;
+}
+.header > p {
+  margin: 0;
+  margin-left: auto;
+  margin-right: 20px;
+  font-size: 20px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+}
+.input {
+  height: 24px;
+  line-height: 24px;
+  font-size: 24px;
+  margin-top: 1px;
+  margin-bottom: 10px;
+  padding-left: 3px;
+  padding-right: 3px;
+  border: none;
+  border-bottom: 1px dashed #ccc !important;
+  outline: none;
+  box-shadow: none !important;
+  text-align: left;
+  width: 100%;
+  color: #333;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  padding-bottom: 2px;
+}
+.amt {
+  font-size: 30px;
+  width: 60% !important;
+  align-self: center;
+}
+.radiogrp {
+  display: flex;
+  flex-direction: row;
+}
+.rd1,
+.rd2 {
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.btngrp {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 20px;
+}
+
+.add {
+  background: #5cc5a7;
+  color: #fff;
+  text-shadow: 0 -1px 0px #318a71;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  padding: 9px 14px;
+  font-size: 15px;
+  line-height: normal;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.close {
+  background: #f6f6f6;
+  color: #333;
+  text-shadow: 0 1px 1px rgb(255 255 255 / 75%);
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  padding: 9px 14px;
+  font-size: 15px;
+  line-height: normal;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px;
+}

@@ -6,6 +6,7 @@ const UserContext = React.createContext({
   allTransactions: [],
   setUser: (user) => {},
   setTransactions: (transactions) => {},
+  // fetchTransactions: () => {},
 });
 
 export default UserContext;
