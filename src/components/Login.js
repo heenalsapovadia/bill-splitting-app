@@ -25,22 +25,23 @@ const Login = (props) => {
         console.log("onSuccess : ", data);
         // fetch user object from dynamo
         try {
-          // console.log("calling fetch");
-          // let response = await fetch(
-          //   "http://localhost:3001/friends/userDetails"
-          // );
-          // if (!response.ok) {
-          //   throw new Error("Could not load the user!");
-          // }
-          // const data = await response.json();
-          // console.log("user details message received - ", data);
-          // userCtx.setUser(data);
+          console.log("calling fetch");
+          let response = await fetch(
+            "https://80rc5nsfue.execute-api.us-east-2.amazonaws.com/user?userId=" +
+              email
+          );
+          if (!response.ok) {
+            throw new Error("Could not load the user!");
+          }
+          const data = await response.json();
+          console.log("user details message received - ", data);
+          userCtx.setUser(data);
 
           // fetch all transactions
-          let userId = "hs@gm.com";
+          // let userId = "hs@gm.com";
           let res = await fetch(
             "https://80rc5nsfue.execute-api.us-east-2.amazonaws.com/transactions?userId=" +
-              userId
+              email
           );
           if (!res.ok) {
             throw new Error("Could not fetch transactions!");

@@ -28,66 +28,48 @@ exports.handler = async (event) => {
     console.log("inside GET : its for user : ", userId);
     console.log("request from /transaction GET : ", eventObj.method); //event.queryStringParameters.userId);
 
-    var params = {
-      TableName: "transactions",
-      IndexName: "userID-index",
-      KeyConditionExpression: "#userId = :userIdValue",
-      ExpressionAttributeNames: {
-        "#userId": "userID",
-      },
-      ExpressionAttributeValues: {
-        ":userIdValue": userId,
-      },
-    };
-
-    function scan(params) {
-      console.log("inside func scan");
-      return new Promise((resolve, reject) => {
-        console.log("inside new Promise");
-        docClient.query(params, function (err, data) {
-          if (err) {
-            console.log("error : ", JSON.stringify(err, null, 2));
-            console.error(
-              "Unable to query. Error:",
-              JSON.stringify(err, null, 2)
-            );
-            reject({
-              statusCode: 500,
-              body: JSON.stringify({
-                msg: "fetch Failed",
-              }),
-              headers: { "Content-Type": "application/json" },
-            });
-          } else {
-            console.log("Query succeeded.");
-            // console.log(data.Items);
-            data.Items.forEach(function (item) {
-              console.log(
-                " -",
-                item.userID +
-                  ": " +
-                  item.txnId +
-                  ": " +
-                  item.amount +
-                  ": " +
-                  item.splitUserId
-              );
-            });
-            resolve({
-              statusCode: 200,
-              body: JSON.stringify({
-                allTxn: data.Items,
-              }),
-              headers: { "Content-Type": "application/json" },
-            });
-          }
+    async function fetchTransactions() {
+      try {
+        var params = {
+          KeyConditionExpression: "userId = :user",
+          ExpressionAttributeValues: {
+            ":user": { S: userId },
+          },
+          TableName: "transactions",
+        };
+        var result = await dynamo.query(params).promise();
+        console.log(JSON.stringify(result));
+        let txnList = [];
+        result.Items.forEach((item) => {
+          let txn = {
+            userId: item.userId.S,
+            timestamp: item.timestamp.S,
+            amount: item.amount.N,
+            splitUserId: item.splitUserId.S,
+            description: item.description.S,
+          };
+          txnList.push(txn);
+          console.log(txn);
         });
-      });
+        return {
+          statusCode: 200,
+          body: JSON.stringify({
+            allTxn: txnList,
+          }),
+          headers: { "Content-Type": "application/json" },
+        };
+      } catch (error) {
+        console.error(error);
+        return {
+          statusCode: 500,
+          body: JSON.stringify({
+            msg: "fetch Failed",
+          }),
+          headers: { "Content-Type": "application/json" },
+        };
+      }
     }
-    console.log("before scan ....");
-    let scanRes = await scan(params);
-    console.log("scnaRes, ", scanRes);
-    console.log("after scan ....");
+    let scanRes = await fetchTransactions();
     return scanRes;
   }
   if (eventObj.method === "POST" && eventObj.path === "/transactions") {
@@ -95,16 +77,14 @@ exports.handler = async (event) => {
     console.log("from inside POST!!!", requestParams.userId);
     console.log("body : ", JSON.parse(event.body));
 
-    let randomTxnId = "xxxxxxxxx";
     let txnDate = "08-12-2021";
     let reqBody = JSON.parse(event.body);
     var params = {
       TableName: "transactions",
       Item: {
-        txnId: randomTxnId,
-        txnDateTime: txnDate,
+        userId: userId,
+        timestamp: Date.now().toString(),
         splitUserId: reqBody.splitUserId,
-        userID: userId,
         isSettled: false,
         amount: reqBody.amount,
         description: reqBody.description,
@@ -170,11 +150,9 @@ exports.handler = async (event) => {
         return {
           statusCode: 200,
           body: JSON.stringify({
-            user: {
-              userId: userObj.userId.S,
-              userName: userObj.userName.S,
-              mobileNumber: userObj.mobileNumber.N,
-            },
+            userId: userObj.userId.S,
+            userName: userObj.userName.S,
+            mobileNumber: userObj.mobileNumber.N,
           }),
           headers: { "Content-Type": "application/json" },
         };

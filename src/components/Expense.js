@@ -2,13 +2,14 @@ import classes from "./Expense.module.css";
 
 const Expense = (props) => {
   let amount = "";
+  let amountInt = Math.abs(props.amount).toFixed(2);
   let orange = true;
   if (props.amount < 0) {
     orange = true;
-    amount = `you owe CAD${Math.abs(props.amount).toFixed(2)}`;
+    amount = `you owe CAD${amountInt}`;
   } else if (props.amount > 0) {
     orange = false;
-    amount = `owes you CAD${props.amount.toFixed(2)}`;
+    amount = `owes you CAD${amountInt}`;
   }
   return (
     <li

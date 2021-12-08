@@ -11,10 +11,10 @@ const SignUp = () => {
   const registerUserToDynamoDB = (user) => {
     try {
       console.log("inside try catch");
-      let userId = "hs@gm.com";
+      // let userId = "hs@gm.com";
       fetch(
-        "https://80rc5nsfue.execute-api.us-east-2.amazonaws.com/transactions?userId=" +
-          userId,
+        "https://80rc5nsfue.execute-api.us-east-2.amazonaws.com/user?userId=" +
+          email,
         {
           method: "POST",
           body: JSON.stringify(user),
@@ -52,7 +52,7 @@ const SignUp = () => {
         // clear the fields --- how to?
 
         // register user to dynamodb
-        // registerUserToDynamoDB(user);
+        registerUserToDynamoDB(user);
       }
     });
   };

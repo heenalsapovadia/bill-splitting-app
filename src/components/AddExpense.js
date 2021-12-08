@@ -1,9 +1,15 @@
+import { useContext } from "react";
+import UserContext from "../store/user-context";
 import Modal from "./UI/Modal";
 
 const AddExpense = (props) => {
+  const userCtx = useContext(UserContext);
+
   const addExpenseHandler = (event) => {
     event.preventDefault();
     // console.log("printing the event : ", event.target.paidBy.value);
+    let userId = userCtx.userProfile.userId;
+
     let splitUserId = event.target.splitUserId.value;
     let description = event.target.description.value;
     let amount = parseInt(event.target.amount.value);
@@ -12,7 +18,7 @@ const AddExpense = (props) => {
 
     try {
       console.log("inside try catch");
-      let userId = "hs@gm.com";
+
       fetch(
         "https://80rc5nsfue.execute-api.us-east-2.amazonaws.com/transactions?userId=" +
           userId,
