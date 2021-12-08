@@ -34,7 +34,7 @@ const DashboardTop = (props) => {
           <div>{props.youAreOwed}</div>
         </div>
       </div>
-      {showAddExpense && <AddExpense onClose={hideAddHandler} />}
+      {showAddExpense && <AddExpense onClose={hideAddHandler} stateChange={props.stateChange}/>}
     </div>
   );
 };

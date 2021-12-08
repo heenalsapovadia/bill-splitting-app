@@ -2,27 +2,21 @@ import React, { useContext, useState } from "react";
 import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
 import UserPool from "../UserPool";
 import UserContext from "../store/user-context";
+import { AccountContext } from "./Account";
 import classes from "./SignUp/SignUp.module.css";
 
 const Login = (props) => {
-  const [email, setEmail] = useState("test_user@gm.com");
-  const [password, setPassword] = useState("Testuser@123");
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const { authenticate } = useContext(AccountContext);
   const userCtx = useContext(UserContext);
 
   const onSubmit = (event) => {
     event.preventDefault();
-    const user = new CognitoUser({
-      Username: email,
-      Pool: UserPool,
-    });
-    const authDetails = new AuthenticationDetails({
-      Username: email,
-      Password: password,
-    });
 
-    user.authenticateUser(authDetails, {
-      onSuccess: async (data) => {
-        console.log("onSuccess : ", data);
+    authenticate(email, password)
+      .then(async (data) => {
+        console.log("Logged in!", data);
         // fetch user object from dynamo
         try {
           console.log("calling fetch");
@@ -52,18 +46,68 @@ const Login = (props) => {
         } catch (error) {
           console.log("User fetch error ", error);
         }
-      },
-      onFailure: (err) => {
-        console.error("onFailure : ", err);
+      })
+      .catch((err) => {
         if (err.toString().includes("UserNotConfirmedException"))
           alert("Please Confirm Registration to Login!");
         else if (err.toString().includes("NotAuthorizedException"))
           alert("Incorrect username or password!");
-      },
-      newPasswordRequired: (data) => {
-        console.log("newPasswordRequried : ", data);
-      },
-    });
+        console.error("Failed to login", err);
+      });
+
+    // const user = new CognitoUser({
+    //   Username: email,
+    //   Pool: UserPool,
+    // });
+    // const authDetails = new AuthenticationDetails({
+    //   Username: email,
+    //   Password: password,
+    // });
+
+    // user.authenticateUser(authDetails, {
+    //   onSuccess: async (data) => {
+    //     console.log("onSuccess : ", data);
+    //     // fetch user object from dynamo
+    //     try {
+    //       console.log("calling fetch");
+    //       let response = await fetch(
+    //         "https://80rc5nsfue.execute-api.us-east-2.amazonaws.com/user?userId=" +
+    //           email
+    //       );
+    //       if (!response.ok) {
+    //         throw new Error("Could not load the user!");
+    //       }
+    //       const data = await response.json();
+    //       console.log("user details message received - ", data);
+    //       userCtx.setUser(data);
+
+    //       // fetch all transactions
+    //       let res = await fetch(
+    //         "https://80rc5nsfue.execute-api.us-east-2.amazonaws.com/transactions?userId=" +
+    //           email
+    //       );
+    //       if (!res.ok) {
+    //         throw new Error("Could not fetch transactions!");
+    //       }
+    //       const txnData = await res.json();
+    //       console.log("user transactions received - ", txnData);
+    //       userCtx.setTransactions(txnData);
+    //       props.login(); // redirect to Dashboard
+    //     } catch (error) {
+    //       console.log("User fetch error ", error);
+    //     }
+    //   },
+    //   onFailure: (err) => {
+    //     console.error("onFailure : ", err);
+    //     if (err.toString().includes("UserNotConfirmedException"))
+    //       alert("Please Confirm Registration to Login!");
+    //     else if (err.toString().includes("NotAuthorizedException"))
+    //       alert("Incorrect username or password!");
+    //   },
+    //   newPasswordRequired: (data) => {
+    //     console.log("newPasswordRequried : ", data);
+    //   },
+    // });
   };
 
   const logout = () => {

@@ -10,6 +10,7 @@ const DashboardPage = () => {
   //   console.log("inside dashboard");
   const userCtx = useContext(UserContext);
   const [index, setIndex] = useState(0);
+  const [dummy, setDummy] = useState(false);
   const [showExpenses, setShowExpenses] = useState(true);
   const [showAddExpense, setShowAddExpense] = useState(false);
 
@@ -32,6 +33,10 @@ const DashboardPage = () => {
     }
     // setTotalBalance()
   });
+
+  const dummyStateHandler = () => {
+    setDummy(!dummy);
+  }
 
   useEffect(() => {
     totalBalanceHandler();
@@ -109,6 +114,7 @@ const DashboardPage = () => {
                 totalBalance={totalBalance}
                 youOwe={youOwe}
                 youAreOwed={youAreOwed}
+                stateChange={dummyStateHandler}
                 // showAddExpense={}
               />
               <Expenses />

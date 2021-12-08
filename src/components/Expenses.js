@@ -1,11 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import UserContext from "../store/user-context";
 import classes from "./Expense.module.css";
 import Expense from "./Expense";
 
 const Expenses = () => {
   // useEffect() rerender api call to fetch all txn
-
+  const [dummy, setDummy] = useState(null);
   const userCtx = useContext(UserContext);
   console.log("Printing from expenses : " + userCtx.allTransactions);
   let userTxn = userCtx.allTransactions;

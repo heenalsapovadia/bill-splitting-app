@@ -16,6 +16,20 @@ const AddExpense = (props) => {
     let paidBy = event.target.paidBy.value;
     if (paidBy === "them") amount = -1 * amount;
 
+    const refreshTransaction = async () => {
+      let res = await fetch(
+        "https://80rc5nsfue.execute-api.us-east-2.amazonaws.com/transactions?userId=" +
+          userCtx.userProfile.userId
+      );
+      if (!res.ok) {
+        throw new Error("Could not fetch transactions!");
+      }
+      const txnData = await res.json();
+      console.log("user transactions received - ", txnData);
+      userCtx.setTransactions(txnData);
+      props.stateChange();
+    };
+
     try {
       console.log("inside try catch");
 
@@ -36,7 +50,7 @@ const AddExpense = (props) => {
       );
       console.log("sent txn");
       // update txn context
-      // userCtx.fetchTransactions();
+      refreshTransaction();
     } catch (error) {
       console.log("error", error);
     }
