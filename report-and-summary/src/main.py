@@ -12,9 +12,8 @@ def execute(dt: datetime=datetime.now()):
     monthly_summary = summary.Summary()
     monthly_summary.calculate_summary(iterator=iterator)
     items = monthly_summary.get_dynamodb_summary(dt=dt)
-    print(items)
     dynamodb_util.put_summary(items=items)
 
 
 if __name__ == '__main__':
-    execute(datetime(2022, 1, 3))
+    execute()
