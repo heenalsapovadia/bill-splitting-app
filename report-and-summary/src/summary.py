@@ -1,4 +1,6 @@
 from datetime import datetime
+from dateutil.relativedelta import relativedelta
+
 
 class Summary:
     def __init__(self):
@@ -16,6 +18,7 @@ class Summary:
             self.calculate_monthly_lend(t)
             self.calculate_monthly_borrow(t)
             self.calculate_monthly_lend_transactions(t)
+            self.calculate_monthly_borrow_transactions(t)
             self.calculate_monthly_interacted_users(t)
         
         return self.get_summary()
@@ -32,7 +35,7 @@ class Summary:
         if dt is None:
             dt = datetime.now()
         
-        ym = dt.strftime('%Y%m')
+        ym = (dt - relativedelta(months=1)).strftime('%Y%m')
         for k, v in self.summary.items():
             d = v.copy()
             d['userId'] = k
@@ -82,7 +85,7 @@ class Summary:
             self.summary[t['userId']]['interacted_users'] = self.summary[t['userId']].get('interacted_users', set())
             self.summary[t['userId']]['interacted_users'].add(t['splitUserId'])
         
-            self.summary[t['splitUserId']] = self.summary.get(t['userId'], {})
+            self.summary[t['splitUserId']] = self.summary.get(t['splitUserId'], {})
             self.summary[t['splitUserId']]['interacted_users'] = self.summary[t['splitUserId']].get('interacted_users', set())
             self.summary[t['splitUserId']]['interacted_users'].add(t['userId'])
         except:
