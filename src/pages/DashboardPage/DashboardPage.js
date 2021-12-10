@@ -18,33 +18,27 @@ const DashboardPage = () => {
   const [youOwe, setYouOwe] = useState(0.0);
   const [youAreOwed, setYouAreOwed] = useState(0.0);
 
-  const totalBalanceHandler = useCallback(async () => {
-    // fetch total balance from dynamo
-    try {
-      const response = await fetch("http://localhost:3001/friends/totalSum");
-      if (!response.ok) {
-        throw new Error("SOmething went wrong");
-      }
-      const data = await response.json();
-      console.log("total Sum message received - ", data.message);
-      setTotalBalance(data.message);
-    } catch (error) {
-      console.log("Error : ", error.message);
-    }
-    // setTotalBalance()
-  });
+  const totalBalanceHandler = (amount) => {
+    setTotalBalance(amount);
+  };
 
   const dummyStateHandler = () => {
+    console.log("state BEFORE : ", dummy);
     setDummy(!dummy);
-  }
+    console.log("state changed!! : ", dummy);
+  };
 
   useEffect(() => {
     totalBalanceHandler();
   }, []);
 
-  const youOweHandler = () => {};
+  const youOweHandler = (amount) => {
+    setYouOwe(amount);
+  };
 
-  const youAreOwedHandler = () => {};
+  const youAreOwedHandler = (amount) => {
+    setYouAreOwed(amount);
+  };
 
   const FriendsListPage = () => {
     let friends = new Map();
@@ -117,7 +111,7 @@ const DashboardPage = () => {
                 stateChange={dummyStateHandler}
                 // showAddExpense={}
               />
-              <Expenses />
+              <Expenses onYouOwe={youOweHandler} onYouAreOwed={youAreOwedHandler} totalBalance={totalBalanceHandler}/>
             </>
           ) : (
             <>

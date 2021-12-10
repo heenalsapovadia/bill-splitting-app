@@ -3,7 +3,7 @@ import UserContext from "../store/user-context";
 import classes from "./Expense.module.css";
 import Expense from "./Expense";
 
-const Expenses = () => {
+const Expenses = (props) => {
   // useEffect() rerender api call to fetch all txn
   const [dummy, setDummy] = useState(null);
   const userCtx = useContext(UserContext);
@@ -28,6 +28,7 @@ const Expenses = () => {
     );
   });
 
+  let youOweAmount = 0;
   let youOwe = userTxn.map((expense) => {
     if (expense.amount < 0) {
       let dateObj = new Date(Number(expense.timestamp));
@@ -36,6 +37,7 @@ const Expenses = () => {
       var year = dateObj.getUTCFullYear();
       let newdate = year + "/" + month + "/" + day;
       console.log(newdate);
+      youOweAmount = youOweAmount + expense.amount;
       return (
         <Expense
           id={expense.txnId}
@@ -47,6 +49,9 @@ const Expenses = () => {
       );
     }
   });
+  props.onYouOwe(Math.abs(youOweAmount));
+
+  let owesYouAmount = 0;
   let owesYou = userTxn.map((expense) => {
     if (expense.amount > 0) {
       let dateObj = new Date(Number(expense.timestamp));
@@ -55,6 +60,8 @@ const Expenses = () => {
       var year = dateObj.getUTCFullYear();
       let newdate = year + "/" + month + "/" + day;
       console.log(newdate);
+      owesYouAmount = owesYouAmount + -1*expense.amount;
+      console.log("owes you amount : ", owesYouAmount);
       return (
         <Expense
           id={expense.txnId}
@@ -66,6 +73,9 @@ const Expenses = () => {
       );
     }
   });
+  console.log("owes you amount : ", owesYouAmount);
+  props.onYouAreOwed(Math.abs(owesYouAmount));
+  props.totalBalance(youOweAmount+Math.abs(owesYouAmount));
 
   return (
     <section className={classes.container}>

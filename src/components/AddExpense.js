@@ -25,7 +25,7 @@ const AddExpense = (props) => {
         throw new Error("Could not fetch transactions!");
       }
       const txnData = await res.json();
-      console.log("user transactions received - ", txnData);
+      console.log("refreshTransaction user transactions received - ", txnData);
       userCtx.setTransactions(txnData);
       props.stateChange();
     };
