@@ -53,6 +53,10 @@ const SignUp = () => {
 
         // register user to dynamodb
         registerUserToDynamoDB(user);
+        setEmail("");
+        setMobileNo("");
+        setPassword("");
+        setUserName("");
       }
     });
   };
@@ -91,6 +95,7 @@ const SignUp = () => {
           className={classes["signup-input"]}
           value={password}
           onChange={(event) => setPassword(event.target.value)}
+          type="password"
         ></input>
         <button className={classes["signup-submit"]} type="submit">
           Submit

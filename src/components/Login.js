@@ -42,6 +42,8 @@ const Login = (props) => {
           const txnData = await res.json();
           console.log("user transactions received - ", txnData);
           userCtx.setTransactions(txnData);
+          setEmail("");
+          setPassword("");
           props.login(); // redirect to Dashboard
         } catch (error) {
           console.log("User fetch error ", error);
@@ -134,6 +136,7 @@ const Login = (props) => {
           className={classes["login-input"]}
           value={password}
           onChange={(event) => setPassword(event.target.value)}
+          type="password"
         ></input>
         <button className={classes["login-submit"]} type="submit">
           Login
